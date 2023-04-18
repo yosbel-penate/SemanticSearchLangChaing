@@ -1,10 +1,8 @@
 import os
-from flask import render_template
-from flask import Flask, flash, request, redirect, url_for
+from flask import Flask, flash, request, redirect, url_for, render_template, jsonify, send_from_directory
 from werkzeug.utils import secure_filename
-from flask import send_from_directory
 from src.logic.process_query_LLM import *
-
+import json
 
 UPLOAD_FOLDER = 'store'
 ALLOWED_EXTENSIONS = {'pdf'}
@@ -19,13 +17,10 @@ def allowed_file(filename):
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
-        # check if the post request has the file part
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
         file = request.files['file']
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
@@ -61,10 +56,13 @@ def process_file(name):
 db=None
 @app.route('/consult/<string:name>', methods=['GET', 'POST'])
 def consult_file(name):
-    global db
+    global db, query_answer_tuple_list
     joinPath = build_file_path(name)
     db = consult_query_LLM(joinPath)
+    query_answer_tuple_list = []
     return redirect(url_for('make_query_form'))
+
+query_answer_tuple_list = []
 
 @app.route('/query/', methods=['GET', 'POST'])
 def query():
@@ -76,7 +74,9 @@ def query():
         answer = send_query(db, query)
     else:
         answer = 'no answer!!!'
-    return render_template('answer.html', answer = answer, query = query)
+    global query_answer_tuple_list
+    query_answer_tuple_list.append((query, answer))
+    return render_template('answer.html', query_answer_tuple_list = query_answer_tuple_list)
 
 @app.route('/query_form')
 def make_query_form():
@@ -84,3 +84,9 @@ def make_query_form():
     if not db:
         return
     return render_template('query.html')
+
+@app.route('/chat_endpoint')
+def chat_endpoint():
+    global query_answer_tuple_list
+    query_answer_json = json.dumps(query_answer_tuple_list)
+    return jsonify(query_answer_json)

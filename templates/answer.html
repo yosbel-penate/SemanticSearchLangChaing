@@ -1,9 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<title>The answer.</title>
-<h1>The query is: </h1>
-    <h3>{{ query }}</h3>
-<h1>The answer is: </h1>
-    <h3>{{ answer }}</h3>
+    <title>The answers</title>
+    <ul>
+        {% for query_answer in query_answer_tuple_list %}
+            {% set query, answer = query_answer %}
+            <li>
+                <div>
+                    <h1>The query is: </h1>
+                    <h3>{{ query }}</h3>
+                    <h1>The answer is: </h1>
+                    <h3>{{ answer }}</h3>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}

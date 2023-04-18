@@ -2,7 +2,7 @@
 
 {% block content %}
 <style>
-    a {
+    .link_bracket {
         font-family: Calibri;
         font-size: 17px;
         padding: 10px;
@@ -17,12 +17,12 @@
         padding: 0 0.25em;
     }
 
-    a:hover {
+    .link_bracket:hover {
         color: #d04c3f;
     }
 
-    a::before,
-    a::after {
+    .link_bracket::before,
+    .link_bracket::after {
         position: absolute;
         top: 0;
         font-weight: 100;
@@ -33,22 +33,22 @@
         transition: opacity 0.2s, transform 0.2s;
     }
 
-    a::before {
+    .link_bracket::before {
         left: -0.1em;
         content: '[';
         -webkit-transform: translateX(-100%);
         transform: translateX(-100%);
     }
 
-    a::after {
+    .link_bracket::after {
         right: -0.1em;
         content: ']';
         -webkit-transform: translateX(100%);
         transform: translateX(100%);
     }
 
-    a:hover::before,
-    a:hover::after {
+    .link_bracket:hover::before,
+    .link_bracket:hover::after {
         opacity: 1;
         -webkit-transform: translateX(0);
         transform: translateX(0);
@@ -57,11 +57,11 @@
     <ul>
         {% for file in files %}
             <li>
-                <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}" target="_blank">
+                <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}" target="_blank" class="link_bracket">
                     <span>{{ file }}</span>
                 </a>
-                <a href="{{ url_for('process_file', name = file)}}"> <span>>> Process</span></a>
-                <a href="{{ url_for('consult_file', name = file)}}"><span>>> Consult</span></a>
+                <a href="{{ url_for('process_file', name = file)}}" class="link_bracket"> <span>>> Process</span></a>
+                <a href="{{ url_for('consult_file', name = file)}}" class="link_bracket"><span>>> Consult</span></a>
             </li>
         {% endfor %}
     </ul>
