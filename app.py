@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 from flask import send_from_directory
 from src.logic.process_query_LLM import *
 
-UPLOAD_FOLDER = 'store/pdf'
+UPLOAD_FOLDER = 'store'
 ALLOWED_EXTENSIONS = {'pdf'}
 
 app = Flask(__name__)
@@ -30,26 +30,30 @@ def upload_file():
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('download_file', name=filename))
+            joinPath = build_file_path(filename)
+            create_directory_if_it_doesnot_exist(joinPath)
+            file.save(joinPath)
+            return redirect(url_for('download_file', name = filename))
     return render_template('load_form.html')
 
 @app.route('/files')
 def dir_listing():
-    BASE_DIR = 'store/pdf'
-    # Joining the base and the requested path
-    abs_path = os.path.join(BASE_DIR, '')
-    # Show directory contents
-    files = os.listdir(abs_path)
-    return render_template('files.html', files=files)
+    abs_path = os.path.join(app.config['UPLOAD_FOLDER'], '')
+    extension_file = ".pdf"
+    pdf_files = get_files_in_subdir(abs_path, extension_file)
+    return render_template('files.html', files = pdf_files)
 
 @app.route('/files/<string:name>')
 def download_file(name):
-    return send_from_directory(app.config["UPLOAD_FOLDER"], name)
+    joinPath = build_file_path(name)
+    return send_from_directory(joinPath)
+
+def build_file_path(filename):
+    return os.path.join(app.config['UPLOAD_FOLDER'], cleanFilename(filename), filename)
 
 @app.route('/process/<string:name>', methods=['GET', 'POST'])
 def process_file(name):
-    process_query_LLM(app.config["UPLOAD_FOLDER"], name)
+    process_query_LLM(name)
     return redirect(url_for('upload_file'))
 
 db=None
