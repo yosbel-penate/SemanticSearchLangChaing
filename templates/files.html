@@ -7,9 +7,7 @@
                 <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}" target="_blank">
                     {{ file }}
                 </a>
-                <form action="{{url_for('process_file')}}" method=post enctype=multipart/form-data>
-                    <input type=submit value=Run>
-                </form>
+                <a href="{{ url_for('process_file', name = file)}}">Process</a>
             </li>
         {% endfor %}
     </ul>

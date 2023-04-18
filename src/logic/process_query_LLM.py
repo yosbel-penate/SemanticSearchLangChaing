@@ -1,12 +1,17 @@
 from PyPDF2 import PdfReader
-from src.logic.locals_variables import PDF_STORE_DIRECTORY, OPENAI_API_KEY
+from src.logic.locals_variables import OPENAI_API_KEY
 from src.logic.tools import *
 import os
 
-def process_query_LLM(pdf_file_name):
+def cleanFilename(sourcestring,  removestring =" %:/,.\\[]<>*?-"):
+    return ''.join([c for c in sourcestring if c not in removestring])
+
+def process_query_LLM(dir, pdf_file_name):
     os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
-    PDF_FILE = os.path.join(PDF_STORE_DIRECTORY, pdf_file_name)
+    PDF_FILE = dir +'/'+ pdf_file_name
     reader = PdfReader(PDF_FILE)
     raw_text = create_raw_text(reader)
     texts = split_text(raw_text)
-    doc_search(texts, pdf_file_name)
+    vectorName = cleanFilename(pdf_file_name)
+    doc_search(texts, vectorName)
+

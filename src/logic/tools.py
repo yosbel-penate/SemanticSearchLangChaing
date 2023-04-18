@@ -23,5 +23,5 @@ def split_text(raw_text):
 def doc_search(texts, name = 'index'):
     embeddings = OpenAIEmbeddings()
     docsearch = FAISS.from_texts(texts, embeddings)
-    docsearch.save_local('store', str = name)
+    docsearch.save_local('store', name)
     return docsearch

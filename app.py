@@ -43,11 +43,11 @@ def dir_listing():
     files = os.listdir(abs_path)
     return render_template('files.html', files=files)
 
-@app.route('/files/<name>')
+@app.route('/files/<string:name>')
 def download_file(name):
     return send_from_directory(app.config["UPLOAD_FOLDER"], name)
 
-@app.route('/process/<name>')
+@app.route('/process/<string:name>', methods=['GET', 'POST'])
 def process_file(name):
-    process_query_LLM(name)
-
+    process_query_LLM(app.config["UPLOAD_FOLDER"], name)
+    return redirect(url_for('upload_file'))
