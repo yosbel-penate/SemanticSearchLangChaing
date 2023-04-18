@@ -1,14 +1,67 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+    a {
+        font-family: Calibri;
+        font-size: 17px;
+        padding: 10px;
+        color: #213999;
+        font-weight: 500;
+        -webkit-transition: color 0.2s;
+        transition: color 0.2s;
+        transition: transform 0.2s;
+        display: inline-block;
+        text-decoration: none;
+        position: relative;
+        padding: 0 0.25em;
+    }
+
+    a:hover {
+        color: #d04c3f;
+    }
+
+    a::before,
+    a::after {
+        position: absolute;
+        top: 0;
+        font-weight: 100;
+        font-size: 150%;
+        line-height: 1;
+        opacity: 0;
+        -webkit-transition: opacity 0.2s, -webkit-transform 0.2s;
+        transition: opacity 0.2s, transform 0.2s;
+    }
+
+    a::before {
+        left: -0.1em;
+        content: '[';
+        -webkit-transform: translateX(-100%);
+        transform: translateX(-100%);
+    }
+
+    a::after {
+        right: -0.1em;
+        content: ']';
+        -webkit-transform: translateX(100%);
+        transform: translateX(100%);
+    }
+
+    a:hover::before,
+    a:hover::after {
+        opacity: 1;
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+</style>
     <ul>
         {% for file in files %}
             <li>
                 <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}" target="_blank">
-                    {{ file }}
+                    <span>{{ file }}</span>
                 </a>
-                <a href="{{ url_for('process_file', name = file)}}">>>>>Process</a>
-                <a href="{{ url_for('consult_file', name = file)}}">>>>>Consult</a>
+                <a href="{{ url_for('process_file', name = file)}}"> <span>>> Process</span></a>
+                <a href="{{ url_for('consult_file', name = file)}}"><span>>> Consult</span></a>
             </li>
         {% endfor %}
     </ul>
