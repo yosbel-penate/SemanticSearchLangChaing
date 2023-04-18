@@ -71,7 +71,7 @@ def query():
         answer = docs[0].page_content
     else:
         answer = 'no answer!!!'
-    return render_template('answer.html', answer=answer)
+    return render_template('answer.html', answer = answer, query = query)
 
 @app.route('/query_form')
 def make_query_form():
