@@ -3,6 +3,7 @@ from flask import render_template
 from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
+from src.logic.process_query_LLM import *
 
 UPLOAD_FOLDER = 'store/pdf'
 ALLOWED_EXTENSIONS = {'pdf'}
@@ -33,17 +34,20 @@ def upload_file():
             return redirect(url_for('download_file', name=filename))
     return render_template('load_form.html')
 
+@app.route('/files')
+def dir_listing():
+    BASE_DIR = 'store/pdf'
+    # Joining the base and the requested path
+    abs_path = os.path.join(BASE_DIR, '')
+    # Show directory contents
+    files = os.listdir(abs_path)
+    return render_template('files.html', files=files)
+
 @app.route('/files/<name>')
 def download_file(name):
     return send_from_directory(app.config["UPLOAD_FOLDER"], name)
 
-@app.route('/files')
-def dir_listing():
-    BASE_DIR = 'store/pdf'
+@app.route('/process/<name>')
+def process_file(name):
+    process_query_LLM(name)
 
-    # Joining the base and the requested path
-    abs_path = os.path.join(BASE_DIR, '')
-
-    # Show directory contents
-    files = os.listdir(abs_path)
-    return render_template('files.html', files=files)

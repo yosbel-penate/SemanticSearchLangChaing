@@ -1,9 +1,16 @@
-<ul>
-    {% for file in files %}
-    <li>
-        <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}" target="_blank">
-            {{ (request.path + '/' if request.path != '/' else '') + file }}
-        </a>
-    </li>
-    {% endfor %}
-</ul>
+{% extends 'base.html' %}
+
+{% block content %}
+    <ul>
+        {% for file in files %}
+            <li>
+                <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}" target="_blank">
+                    {{ file }}
+                </a>
+                <form action="{{url_for('process_file')}}" method=post enctype=multipart/form-data>
+                    <input type=submit value=Run>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
