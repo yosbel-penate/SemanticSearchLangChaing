@@ -4,8 +4,7 @@ from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
 from src.logic.process_query_LLM import *
-from langchain.chains.question_answering import load_qa_chain
-from langchain.llms import OpenAI
+
 
 UPLOAD_FOLDER = 'store'
 ALLOWED_EXTENSIONS = {'pdf'}
@@ -74,9 +73,7 @@ def query():
         return
     if request.method == 'POST':
         query = request.form['query']
-        docs = db.similarity_search(query)
-        chain = load_qa_chain(OpenAI(), chain_type="stuff")
-        answer = chain.run(input_documents=docs, question=query)
+        answer = send_query(db, query)
     else:
         answer = 'no answer!!!'
     return render_template('answer.html', answer = answer, query = query)

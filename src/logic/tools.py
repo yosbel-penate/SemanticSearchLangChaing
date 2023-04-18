@@ -1,6 +1,8 @@
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import FAISS
 from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.chains.question_answering import load_qa_chain
+from langchain.llms import OpenAI
 import os
 
 def create_raw_text(reader):
@@ -46,3 +48,8 @@ def create_directory_if_it_doesnot_exist(file_path):
     directory = os.path.dirname(file_path)
     if not os.path.exists(directory):
         os.makedirs(directory)
+
+def send_query(db, query):
+    docs = db.similarity_search(query)
+    chain = load_qa_chain(OpenAI(), chain_type="stuff")
+    return chain.run(input_documents=docs, question=query)
