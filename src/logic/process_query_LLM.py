@@ -10,7 +10,6 @@ def process_query_LLM(pdf_file_path):
     texts = split_text(raw_text)
     doc_search(texts, dir = os.path.dirname(pdf_file_path))
 
-def consult_query_LLM(pdf_file_name):
-    name = cleanFilename(pdf_file_name)
-    db = doc_load(name)
+def consult_query_LLM(pdf_file_path):
+    db = doc_load(pdf_file_path)
     return db

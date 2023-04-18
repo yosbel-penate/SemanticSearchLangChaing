@@ -46,14 +46,15 @@ def dir_listing():
 @app.route('/files/<string:name>')
 def download_file(name):
     joinPath = build_file_path(name)
-    return send_from_directory(joinPath)
+    return send_from_directory(os.path.dirname(joinPath), name)
 
 def build_file_path(filename):
     return os.path.join(app.config['UPLOAD_FOLDER'], cleanFilename(filename), filename)
 
 @app.route('/process/<string:name>', methods=['GET', 'POST'])
 def process_file(name):
-    process_query_LLM(name)
+    joinPath = build_file_path(name)
+    process_query_LLM(joinPath)
     return redirect(url_for('upload_file'))
 
 db=None
@@ -61,7 +62,8 @@ db=None
 def consult_file(name):
     global db
     if not db:
-        db = consult_query_LLM(name)
+        joinPath = build_file_path(name)
+        db = consult_query_LLM(joinPath)
     return redirect(url_for('make_query_form'))
 
 @app.route('/query/', methods=['GET', 'POST'])

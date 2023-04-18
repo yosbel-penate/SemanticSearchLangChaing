@@ -27,19 +27,19 @@ def doc_search(texts, dir, name = 'index'):
     docsearch.save_local(dir, name)
     return docsearch
 
-def doc_load(index_name):
+def doc_load(file_path):
     embeddings = OpenAIEmbeddings()
-    return FAISS.load_local('store', embeddings, index_name)
+    return FAISS.load_local(os.path.dirname(file_path), embeddings)
 
 def cleanFilename(sourcestring,  removestring =" %:/,.\\[]<>*?-"):
     return ''.join([c for c in sourcestring if c not in removestring])
 
 def get_files_in_subdir(path_to_directory, extension_file):
     pdf_files = []
-    for root, dirs, files in os.walk(path_to_directory):
+    for _, _, files in os.walk(path_to_directory):
         for file in files:
             if file.endswith(extension_file):
-                pdf_files.append(os.path.join(root, file))
+                pdf_files.append(file)
     return pdf_files
 
 def create_directory_if_it_doesnot_exist(file_path):
