@@ -71,7 +71,7 @@ def query():
         return
     if request.method == 'POST':
         query = request.form['query']
-        answer = send_query(db, query)
+        answer = send_query_to_OpenAI(db, query)
     else:
         answer = 'no answer!!!'
     global query_answer_tuple_list

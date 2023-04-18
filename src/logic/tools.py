@@ -49,7 +49,7 @@ def create_directory_if_it_doesnot_exist(file_path):
     if not os.path.exists(directory):
         os.makedirs(directory)
 
-def send_query(db, query):
+def send_query_to_OpenAI(db, query):
     docs = db.similarity_search(query)
     chain = load_qa_chain(OpenAI(), chain_type="stuff")
     return chain.run(input_documents=docs, question=query)

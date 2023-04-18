@@ -1,18 +1,74 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        ol {
+            list-style: none;
+            padding: 0;
+        }
+
+        li + li {
+            margin-top: 1rem;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: aliceblue;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            width: calc(100% - 2rem);
+            box-shadow: 0.25rem 0.25rem 0.75rem rgb(0 0 0 / 0.1);
+        }
+
+        li::before {
+            counter-increment: list-item;
+            content: counter(list-item);
+            font-size: 3rem;
+            font-weight: 700;
+            width: 2em;
+            height: 2em;
+            background: black;
+            flex: 0 0 auto;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        li:nth-child(even) {
+            flex-direction: row-reverse;
+            background: lavender;
+            margin-right: -2rem;
+            margin-left: 2rem;
+        }
+    </style>
+
     <title>The answers</title>
-    <ul>
-        {% for query_answer in query_answer_tuple_list %}
-            {% set query, answer = query_answer %}
-            <li>
-                <div>
-                    <h1>The query is: </h1>
-                    <h3>{{ query }}</h3>
-                    <h1>The answer is: </h1>
-                    <h3>{{ answer }}</h3>
-                </div>
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="wrapper">
+        <ol role="list">
+            {% for query_answer in query_answer_tuple_list %}
+                {% set query, answer = query_answer %}
+                <li>
+                    <div>
+                        <h2><span style="text-decoration: underline; border-bottom: 2px solid;">The query is:</span> </h1>
+                        <h3>{{ query }}</h3>
+                        <h2><span style="text-decoration: underline; border-bottom: 2px solid;">The answer is:</span></h1>
+                        <h3>{{ answer }}</h3>
+                    </div>
+                </li>
+            {% endfor %}
+        </ol>
+    </div>
 {% endblock %}
