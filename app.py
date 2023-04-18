@@ -4,6 +4,8 @@ from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
 from src.logic.process_query_LLM import *
+from langchain.chains.question_answering import load_qa_chain
+from langchain.llms import OpenAI
 
 UPLOAD_FOLDER = 'store'
 ALLOWED_EXTENSIONS = {'pdf'}
@@ -61,9 +63,8 @@ db=None
 @app.route('/consult/<string:name>', methods=['GET', 'POST'])
 def consult_file(name):
     global db
-    if not db:
-        joinPath = build_file_path(name)
-        db = consult_query_LLM(joinPath)
+    joinPath = build_file_path(name)
+    db = consult_query_LLM(joinPath)
     return redirect(url_for('make_query_form'))
 
 @app.route('/query/', methods=['GET', 'POST'])
@@ -74,7 +75,8 @@ def query():
     if request.method == 'POST':
         query = request.form['query']
         docs = db.similarity_search(query)
-        answer = docs[0].page_content
+        chain = load_qa_chain(OpenAI(), chain_type="stuff")
+        answer = chain.run(input_documents=docs, question=query)
     else:
         answer = 'no answer!!!'
     return render_template('answer.html', answer = answer, query = query)
