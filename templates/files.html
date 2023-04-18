@@ -7,7 +7,8 @@
                 <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}" target="_blank">
                     {{ file }}
                 </a>
-                <a href="{{ url_for('process_file', name = file)}}">Process</a>
+                <a href="{{ url_for('process_file', name = file)}}">>>>>Process</a>
+                <a href="{{ url_for('consult_file', name = file)}}">>>>>Consult</a>
             </li>
         {% endfor %}
     </ul>

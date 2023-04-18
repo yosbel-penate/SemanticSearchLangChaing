@@ -25,3 +25,7 @@ def doc_search(texts, name = 'index'):
     docsearch = FAISS.from_texts(texts, embeddings)
     docsearch.save_local('store', name)
     return docsearch
+
+def doc_load(index_name):
+    embeddings = OpenAIEmbeddings()
+    return FAISS.load_local('store', embeddings, index_name)

@@ -51,3 +51,29 @@ def download_file(name):
 def process_file(name):
     process_query_LLM(app.config["UPLOAD_FOLDER"], name)
     return redirect(url_for('upload_file'))
+
+db=None
+@app.route('/consult/<string:name>', methods=['GET', 'POST'])
+def consult_file(name):
+    global db
+    if not db:
+        db = consult_query_LLM(name)
+    return redirect(url_for('make_query_form'))
+
+@app.route('/query/', methods=['GET', 'POST'])
+def query():
+    global db
+    if not db:
+        return
+    if request.method == 'POST':
+        query = request.form['query']
+        docs = db.similarity_search(query)
+        return docs[0]
+    return 'no answer!!!'
+
+@app.route('/query_form')
+def make_query_form():
+    global db
+    if not db:
+        return
+    return render_template('query.html')

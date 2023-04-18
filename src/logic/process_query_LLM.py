@@ -15,3 +15,7 @@ def process_query_LLM(dir, pdf_file_name):
     vectorName = cleanFilename(pdf_file_name)
     doc_search(texts, vectorName)
 
+def consult_query_LLM(pdf_file_name):
+    name = cleanFilename(pdf_file_name)
+    db = doc_load(name)
+    return db

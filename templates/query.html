@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <title>Make query</title>
+    <h1>Make query</h1>
+    <form action="/query" method=post enctype=multipart/form-data>
+        <input type=text name=query>
+        <input type=submit value=Upload>
+    </form>
+{% endblock %}
