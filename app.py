@@ -68,8 +68,10 @@ def query():
     if request.method == 'POST':
         query = request.form['query']
         docs = db.similarity_search(query)
-        return docs[0]
-    return 'no answer!!!'
+        answer = docs[0].page_content
+    else:
+        answer = 'no answer!!!'
+    return render_template('answer.html', answer=answer)
 
 @app.route('/query_form')
 def make_query_form():
