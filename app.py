@@ -85,8 +85,6 @@ def make_query_form():
         return
     return render_template('query.html')
 
-@app.route('/chat_endpoint')
-def chat_endpoint():
-    global query_answer_tuple_list
-    query_answer_json = json.dumps(query_answer_tuple_list)
-    return jsonify(query_answer_json)
+@app.route("/redirect", methods=["POST"])
+def redirect_to_new_page():
+    return redirect(url_for("make_query_form"))
