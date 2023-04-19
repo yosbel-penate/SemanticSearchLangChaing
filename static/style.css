@@ -22,6 +22,12 @@ body {
     font-size: 17px;
 }
 
+.topnav #a_img {
+    float: left;
+    color: #f2f2f2;
+    padding: 0%;
+}
+
 /* Change the color of links on hover */
     .topnav a:hover {
     background-color: #ddd;
