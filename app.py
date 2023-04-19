@@ -88,3 +88,7 @@ def make_query_form():
 @app.route("/redirect", methods=["POST"])
 def redirect_to_new_page():
     return redirect(url_for("make_query_form"))
+
+@app.route('/about')
+def about_page():
+    return render_template('about.html')
