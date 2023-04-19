@@ -87,41 +87,21 @@
         border-radius: 4px;
     }
     /*Card*/
-    .parent {
+    .horizontal-container {
         display: flex;
-        justify-content: center; /* Centrar horizontalmente */
-        align-items: center; /* Centrar verticalmente */
+        flex-direction: row;
     }
-    .child {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-    .card {
-        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-        transition: 0.3s;
-        width: 40%;
-        border-radius: 5px;
-    }
-
-    .card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-    }
-
-    .container {
-        padding: 16px 16px;
+    .center-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 </style>
-    <div class="parent">
+    <div class="center-container">
         <title>Make query</title>
-        <div class="card child">
-            <div class="container parent">
-                <form action="/query" method=post enctype=multipart/form-data>
-                    <input class="input_query" type=text name=query>
-                    <input class="button-17" type=submit value=Ask>
-                </form>
-            </div>
-        </div>
+            <form class="horizontal-container" action="/query" method=post enctype=multipart/form-data>
+                <input class="input_query" type=text name=query>
+                <input class="button-17" type=submit value=Ask>
+            </form>
     </div>
 {% endblock %}
