@@ -29,7 +29,7 @@ def upload_file():
             joinPath = build_file_path(filename)
             create_directory_if_it_doesnot_exist(joinPath)
             file.save(joinPath)
-            return redirect(url_for('download_file', name = filename))
+            return redirect(url_for('dir_listing'))
     return render_template('load_form_super.html')
 
 @app.route('/files')
