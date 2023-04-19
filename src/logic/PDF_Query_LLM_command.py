@@ -5,7 +5,8 @@ from locals_variables import *
 from tools import *
 import os
 
-os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
+os.environ["OPENAI_API_KEY"] = load_api_key()
+
 reader = PdfReader(PDF_FILE)
 
 raw_text = create_raw_text(reader)

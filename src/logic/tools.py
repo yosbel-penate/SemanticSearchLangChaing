@@ -3,6 +3,7 @@ from langchain.vectorstores import FAISS
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.chains.question_answering import load_qa_chain
 from langchain.llms import OpenAI
+import configparser
 import os
 
 def create_raw_text(reader):
@@ -53,3 +54,9 @@ def send_query_to_OpenAI(db, query):
     docs = db.similarity_search(query)
     chain = load_qa_chain(OpenAI(), chain_type="stuff")
     return chain.run(input_documents=docs, question=query)
+
+def load_api_key():
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+    OPENAI_API_KEY = config.get('APIVariables', 'OPENAI_API_KEY')
+    return OPENAI_API_KEY
