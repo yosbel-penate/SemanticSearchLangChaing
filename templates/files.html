@@ -1,14 +1,36 @@
 {% extends 'base.html' %}
 {% block content %}
-    <ul>
-        {% for file in files %}
-            <li>
-                <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}" target="_blank" class="link_bracket">
-                    <span>{{ file }}</span>
-                </a>
-                <a href="{{ url_for('process_file', name = file)}}" class="link_bracket"> <span>>> Process</span></a>
-                <a href="{{ url_for('consult_file', name = file)}}" class="link_bracket"><span>>> Consult</span></a>
-            </li>
-        {% endfor %}
-    </ul>
+    <div id="table_files">
+        <span class="table-add glyphicon glyphicon-plus"></span>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>Process</th>
+                <th>Consult</th>
+                <th>Delete</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            {% for file in files %}
+                <tr>
+                    <td>
+                        <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}" target="_blank" class="link_bracket">
+                            <span>{{ file }}</span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('process_file', name = file)}}" class="link_bracket"> <span>>> Process</span></a>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('consult_file', name = file)}}" class="link_bracket"><span>>> Consult</span></a>
+                    </td>
+                    <td>
+                        <span class="table-remove glyphicon glyphicon-remove"></span>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 {% endblock %}

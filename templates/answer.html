@@ -2,11 +2,11 @@
 {% block content %}
     <title>The answers</title>
     <div class="wrapper">
-        <ol role="list">
+        <ol class="ol_answer" role="list">
             {% for query_answer in query_answer_tuple_list %}
                 {% set query, answer = query_answer %}
-                <li>
-                    <div class="li_answer">
+                <li class="li_answer">
+                    <div>
                         <h2><span style="text-decoration: underline; border-bottom: 2px solid;">The query is:</span> </h1>
                         <h3>{{ query }}</h3>
                         <h2><span style="text-decoration: underline; border-bottom: 2px solid;">The answer is:</span></h1>
