@@ -27,7 +27,9 @@
                         <a href="{{ url_for('consult_file', name = file)}}" class="link_bracket"><span>>> Consult</span></a>
                     </td>
                     <td align="center">
-                        <div class="delete-icon"></div>
+                        <a href="{{ url_for('delete_file', name = file)}}" onclick="location.href=this.getAttribute('href');return false;">
+                            <div class="delete-icon"></div>
+                        </a>
                     </td>
                 </tr>
             {% endfor %}

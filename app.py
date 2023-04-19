@@ -92,3 +92,14 @@ def redirect_to_new_page():
 @app.route('/about')
 def about_page():
     return render_template('about.html')
+
+@app.route('/delete/<string:name>', methods=['GET', 'POST'])
+def delete_file(name):
+    joinPath = build_file_path(name)
+    remove_file_path(joinPath)
+    return redirect(url_for('dir_listing'))
+
+import shutil
+def remove_file_path(path_file_name):
+    if os.path.exists(path_file_name):
+        shutil.rmtree(os.path.dirname(path_file_name))

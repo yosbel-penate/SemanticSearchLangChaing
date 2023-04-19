@@ -2,7 +2,9 @@
 .venv/
 store/
 pdf/
-
+*.pdf
+*.faiss
+*.pkl
 *.pyc
 __pycache__/
 
