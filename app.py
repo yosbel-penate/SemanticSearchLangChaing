@@ -103,3 +103,7 @@ import shutil
 def remove_file_path(path_file_name):
     if os.path.exists(path_file_name):
         shutil.rmtree(os.path.dirname(path_file_name))
+
+@app.route('/newpromps', methods=['POST'])
+def new_promps_form():
+    return render_template('new_promps.html')

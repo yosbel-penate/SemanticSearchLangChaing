@@ -11,8 +11,8 @@
                         <h3>{{ query }}</h3>
                         <h2><span style="text-decoration: underline; border-bottom: 2px solid;">The answer is:</span></h1>
                         <h3>{{ answer }}</h3>
-                        <form method="post" action="{{ url_for('new_promps', promps = query) }}"></form>
-                            <button title="Save promps" class="btn-round-save-props" type="submit">
+                        <form method="post" action="{{ url_for('new_promps_form') }}">
+                            <button type="submit" title="Save promps" class="btn-round-save-props">
                                 <span class="btn-icon-save-props">&#x2713;</span>
                             </button>
                         </form>
