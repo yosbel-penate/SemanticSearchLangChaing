@@ -21,13 +21,13 @@
                         </a>
                     </td>
                     <td>
-                        <a href="{{ url_for('process_file', name = file)}}" class="link_bracket"> <span>>> Process</span></a>
+                        <a href="{{ url_for('main.process_file', name = file)}}" class="link_bracket"> <span>>> Process</span></a>
                     </td>
                     <td>
-                        <a href="{{ url_for('consult_file', name = file)}}" class="link_bracket"><span>>> Consult</span></a>
+                        <a href="{{ url_for('main.consult_file', name = file)}}" class="link_bracket"><span>>> Consult</span></a>
                     </td>
                     <td align="center">
-                        <a href="{{ url_for('delete_file', name = file)}}" onclick="location.href=this.getAttribute('href');return false;">
+                        <a href="{{ url_for('main.delete_file', name = file)}}" onclick="location.href=this.getAttribute('href');return false;">
                             <div class="delete-icon"></div>
                         </a>
                     </td>
