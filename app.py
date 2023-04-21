@@ -121,6 +121,6 @@ def save_promps():
 def save_tags_and_promps_in_json(tags, promps):
     tags_promps_db = os.path.join(app.config['UPLOAD_FOLDER'], TAGS_PROMPS_DB)
     data = read_json(tags_promps_db)
-    data["tags"].append(tags)
-    data["promps"].append(promps)
+    new_item = {"tags": tags, "promps": promps}
+    data.append(new_item)
     write_json(tags_promps_db, data)
