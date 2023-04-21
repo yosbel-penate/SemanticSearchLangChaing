@@ -30,10 +30,10 @@ def upload_file():
             joinPath = build_file_path(filename)
             create_directory_if_it_doesnot_exist(joinPath)
             file.save(joinPath)
-            return redirect(url_for('dir_listing'))
+            return redirect(url_for('main.dir_listing'))
     return render_template('load_form_super.html')
 
-@main_bp.route('/files')
+@main_bp.route('/files', methods=['GET'])
 def dir_listing():
     abs_path = os.path.join(UPLOAD_FOLDER, '')
     extension_file = ".pdf"
@@ -43,7 +43,11 @@ def dir_listing():
 @main_bp.route('/files/<string:name>')
 def download_file(name):
     joinPath = build_file_path(name)
-    return send_from_directory(os.path.dirname(joinPath), name)
+    path = os.path.dirname(joinPath)
+    try:
+        return send_from_directory(path, name)
+    except Exception as e:
+        print(">>>>>>my error>>>>", e)
 
 def build_file_path(filename):
     return os.path.join(UPLOAD_FOLDER, cleanFilename(filename), filename)
@@ -52,7 +56,7 @@ def build_file_path(filename):
 def process_file(name):
     joinPath = build_file_path(name)
     process_query_LLM(joinPath)
-    return redirect(url_for('upload_file'))
+    return redirect(url_for('main.upload_file'))
 
 db=None
 @main_bp.route('/consult/<string:name>', methods=['GET', 'POST'])
@@ -98,7 +102,7 @@ def about_page():
 def delete_file(name):
     joinPath = build_file_path(name)
     remove_file_path(joinPath)
-    return redirect(url_for('dir_listing'))
+    return redirect(url_for('main.dir_listing'))
 
 import shutil
 def remove_file_path(path_file_name):
