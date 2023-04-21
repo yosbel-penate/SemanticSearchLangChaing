@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    #promps_textarea[textarea] {
+        padding: 10px;
+        font-size: 16px;
+        color: #333;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: vertical;
+    }
+</style>
+    <div class="center-container">
+        <title>Make query</title>
+            <form class="horizontal-container" method=post enctype=multipart/form-data>
+                <input class="input_query" type=text name=tags>
+                <input class="button-17" type=submit value=Save>
+                <textarea id="promps_textarea" name="promps" rows="6" cols="60">{{promps}}</textarea>
+            </form>
+    </div>
+{% endblock %}
