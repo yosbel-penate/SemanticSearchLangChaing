@@ -60,7 +60,9 @@ body {
 .horizontal-container {
     display: flex;
     flex-direction: row;
+    padding: 10px;
 }
+
 .center-container {
     display: flex;
     justify-content: center;

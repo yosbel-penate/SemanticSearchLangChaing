@@ -2,10 +2,11 @@ import os
 from flask import Flask, flash, request, redirect, url_for, render_template, jsonify, send_from_directory
 from werkzeug.utils import secure_filename
 from src.logic.process_query_LLM import *
-import json
+from src.model.JsonTools import write_json, read_json
 
 UPLOAD_FOLDER = 'store'
 ALLOWED_EXTENSIONS = {'pdf'}
+TAGS_PROMPS_DB = 'promps.json'
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -104,6 +105,22 @@ def remove_file_path(path_file_name):
     if os.path.exists(path_file_name):
         shutil.rmtree(os.path.dirname(path_file_name))
 
-@app.route('/newpromps', methods=['POST'])
-def new_promps_form():
-    return render_template('new_promps.html')
+@app.route('/newpromps/<string:promps>', methods=['POST'])
+def new_promps_form(promps):
+    return render_template('new_promps.html', promps = promps)
+
+@app.route('/save-promps', methods=['GET', 'POST'])
+def save_promps():
+    if request.method == 'POST':
+        tags = request.form['tags']
+        promps = request.form['promps']
+        save_tags_and_promps_in_json(tags, promps)
+    global query_answer_tuple_list
+    return render_template('answer.html', query_answer_tuple_list = query_answer_tuple_list)
+
+def save_tags_and_promps_in_json(tags, promps):
+    tags_promps_db = os.path.join(app.config['UPLOAD_FOLDER'], TAGS_PROMPS_DB)
+    data = read_json(tags_promps_db)
+    data["tags"].append(tags)
+    data["promps"].append(promps)
+    write_json(tags_promps_db, data)
