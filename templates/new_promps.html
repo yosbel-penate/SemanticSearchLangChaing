@@ -1,19 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<style>
-    #promps_textarea[textarea] {
-        padding: 10px;
-        font-size: 16px;
-        color: #333;
-        resize: vertical;
-        border: 2px solid transparent;
-    }
-    .vertical-container {
-        display: flex;
-        flex-direction: column;
-    }
-</style>
     <div class="center-container">
         <title>Make query</title>
             <form class="vertical-container"  method=post enctype=multipart/form-data action="/save-promps">
