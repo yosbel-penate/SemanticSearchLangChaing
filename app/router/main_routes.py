@@ -43,11 +43,8 @@ def dir_listing():
 @main_bp.route('/files/<string:name>')
 def download_file(name):
     joinPath = build_file_path(name)
-    path = os.path.dirname(joinPath)
-    try:
-        return send_from_directory(path, name)
-    except Exception as e:
-        print(">>>>>>my error>>>>", e)
+    path = os.path.join( '../', os.path.dirname(joinPath))
+    return send_from_directory(path, name)
 
 def build_file_path(filename):
     return os.path.join(UPLOAD_FOLDER, cleanFilename(filename), filename)
