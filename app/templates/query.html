@@ -6,6 +6,9 @@
             <form class="horizontal-container" action="/query" method=post enctype=multipart/form-data>
                 <input class="input_query" type=text name=query>
                 <input class="button-17" type=submit value=Ask>
+                <a href="{{ url_for('main.promps_list')}}" class="button-17">
+                    <span>Promps</span>
+                </a>
             </form>
     </div>
 {% endblock %}

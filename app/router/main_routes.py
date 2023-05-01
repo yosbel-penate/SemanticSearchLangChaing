@@ -76,9 +76,7 @@ def query():
         answer = send_query_to_OpenAI(db, query)
     else:
         answer = 'no answer!!!'
-    global query_answer_tuple_list
-    query_answer_tuple_list.append((query, answer))
-    return render_template('answer.html', query_answer_tuple_list = query_answer_tuple_list)
+    return process_answer(query, answer)
 
 @main_bp.route('/query_form')
 def make_query_form():
@@ -132,3 +130,16 @@ def promps_list():
     data_list = read_json(tags_promps_db)
     tuple_list = [(d['tags'], d['promps']) for d in data_list]
     return render_template('promps_list.html', promps = tuple_list)
+
+@main_bp.route('/promps/<string:query>', methods=['GET', 'POST'])
+def promps_query(query):
+    global db
+    if not db:
+        return
+    answer = send_query_to_OpenAI(db, query)
+    return process_answer(query, answer)
+
+def process_answer(query, answer):
+    global query_answer_tuple_list
+    query_answer_tuple_list.append((query, answer))
+    return render_template('answer.html', query_answer_tuple_list = query_answer_tuple_list)

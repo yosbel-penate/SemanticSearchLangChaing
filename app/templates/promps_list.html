@@ -9,7 +9,9 @@
             {% for tag, promp in promps %}
                 <tr>
                     <td>
-                        <span>{{ tag }}</span>
+                        <a href="{{ url_for('main.promps_query', query = promp)}}" class="link_bracket">
+                            <span>{{ tag }}</span>
+                        </a>
                     </td>
                     <td>
                         <span>{{ promp }}</span>
