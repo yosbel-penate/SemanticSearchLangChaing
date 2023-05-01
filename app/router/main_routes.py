@@ -1,14 +1,16 @@
-from flask import Blueprint
 import os
+from flask import Blueprint
 from flask import flash, request, redirect, url_for, render_template, send_from_directory
 from werkzeug.utils import secure_filename
 from src.logic.process_query_LLM import *
 from src.model.JsonTools import write_json, read_json
 
+#Global variables
 UPLOAD_FOLDER = 'store'
 ALLOWED_EXTENSIONS = {'pdf'}
 TAGS_PROMPS_DB = 'promps.json'
 query_answer_tuple_list = []
+db=None
 
 main_bp = Blueprint('main', __name__)
 
@@ -34,6 +36,7 @@ def upload_file():
 def about_page():
     return render_template('about.html')
 
+
 #File
 
 @main_bp.route('/files', methods=['GET'])
@@ -55,7 +58,6 @@ def process_file(name):
     process_query_LLM(joinPath)
     return redirect(url_for('main.upload_file'))
 
-db=None
 @main_bp.route('/consult/<string:name>', methods=['GET', 'POST'])
 def consult_file(name):
     global db, query_answer_tuple_list
