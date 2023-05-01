@@ -8,12 +8,9 @@ from src.model.JsonTools import write_json, read_json
 UPLOAD_FOLDER = 'store'
 ALLOWED_EXTENSIONS = {'pdf'}
 TAGS_PROMPS_DB = 'promps.json'
+query_answer_tuple_list = []
 
 main_bp = Blueprint('main', __name__)
-
-def allowed_file(filename):
-    return '.' in filename and \
-            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @main_bp.route('/', methods=['GET', 'POST'])
 def upload_file():
@@ -33,6 +30,12 @@ def upload_file():
             return redirect(url_for('main.dir_listing'))
     return render_template('load_form_super.html')
 
+@main_bp.route('/about')
+def about_page():
+    return render_template('about.html')
+
+#File
+
 @main_bp.route('/files', methods=['GET'])
 def dir_listing():
     abs_path = os.path.join(UPLOAD_FOLDER, '')
@@ -45,9 +48,6 @@ def download_file(name):
     joinPath = build_file_path(name)
     path = os.path.join( '../', os.path.dirname(joinPath))
     return send_from_directory(path, name)
-
-def build_file_path(filename):
-    return os.path.join(UPLOAD_FOLDER, cleanFilename(filename), filename)
 
 @main_bp.route('/process/<string:name>', methods=['GET', 'POST'])
 def process_file(name):
@@ -64,7 +64,20 @@ def consult_file(name):
     query_answer_tuple_list = []
     return redirect(url_for('main.make_query_form'))
 
-query_answer_tuple_list = []
+@main_bp.route('/delete/<string:name>', methods=['GET', 'POST'])
+def delete_file(name):
+    joinPath = build_file_path(name)
+    remove_file_path(joinPath)
+    return redirect(url_for('main.dir_listing'))
+
+#Query process
+
+@main_bp.route('/query_form')
+def make_query_form():
+    global db
+    if not db:
+        return
+    return render_template('query.html')
 
 @main_bp.route('/query/', methods=['GET', 'POST'])
 def query():
@@ -78,32 +91,12 @@ def query():
         answer = 'no answer!!!'
     return process_answer(query, answer)
 
-@main_bp.route('/query_form')
-def make_query_form():
-    global db
-    if not db:
-        return
-    return render_template('query.html')
-
 @main_bp.route("/redirect", methods=["POST"])
 def redirect_to_new_page():
     return redirect(url_for("main.make_query_form"))
 
-@main_bp.route('/about')
-def about_page():
-    return render_template('about.html')
 
-@main_bp.route('/delete/<string:name>', methods=['GET', 'POST'])
-def delete_file(name):
-    joinPath = build_file_path(name)
-    remove_file_path(joinPath)
-    return redirect(url_for('main.dir_listing'))
-
-import shutil
-def remove_file_path(path_file_name):
-    if os.path.exists(path_file_name):
-        shutil.rmtree(os.path.dirname(path_file_name))
-
+#Promps process
 @main_bp.route('/newpromps/<string:promps>', methods=['POST'])
 def new_promps_form(promps):
     return render_template('new_promps.html', promps = promps)
@@ -117,12 +110,8 @@ def save_promps():
     global query_answer_tuple_list
     return render_template('answer.html', query_answer_tuple_list = query_answer_tuple_list)
 
-def save_tags_and_promps_in_json(tags, promps):
-    tags_promps_db = os.path.join(UPLOAD_FOLDER, TAGS_PROMPS_DB)
-    data = read_json(tags_promps_db)
-    new_item = {"tags": tags, "promps": promps}
-    data.append(new_item)
-    write_json(tags_promps_db, data)
+
+#Promps list page
 
 @main_bp.route('/promps')
 def promps_list():
@@ -139,7 +128,31 @@ def promps_query(query):
     answer = send_query_to_OpenAI(db, query)
     return process_answer(query, answer)
 
+#Commond
+
 def process_answer(query, answer):
     global query_answer_tuple_list
     query_answer_tuple_list.append((query, answer))
     return render_template('answer.html', query_answer_tuple_list = query_answer_tuple_list)
+
+#Tools
+def build_file_path(filename):
+    return os.path.join(UPLOAD_FOLDER, cleanFilename(filename), filename)
+
+def allowed_file(filename):
+    return '.' in filename and \
+            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+#Controlers
+
+import shutil
+def remove_file_path(path_file_name):
+    if os.path.exists(path_file_name):
+        shutil.rmtree(os.path.dirname(path_file_name))
+
+def save_tags_and_promps_in_json(tags, promps):
+    tags_promps_db = os.path.join(UPLOAD_FOLDER, TAGS_PROMPS_DB)
+    data = read_json(tags_promps_db)
+    new_item = {"tags": tags, "promps": promps}
+    data.append(new_item)
+    write_json(tags_promps_db, data)
