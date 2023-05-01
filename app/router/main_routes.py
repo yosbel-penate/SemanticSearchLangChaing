@@ -125,3 +125,10 @@ def save_tags_and_promps_in_json(tags, promps):
     new_item = {"tags": tags, "promps": promps}
     data.append(new_item)
     write_json(tags_promps_db, data)
+
+@main_bp.route('/promps')
+def promps_list():
+    tags_promps_db = os.path.join(UPLOAD_FOLDER, TAGS_PROMPS_DB)
+    data_list = read_json(tags_promps_db)
+    tuple_list = [(d['tags'], d['promps']) for d in data_list]
+    return render_template('promps_list.html', promps = tuple_list)

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div id="table_promps">
+        <table class="table">
+            <tr>
+                <th>Tags</th>
+                <th>Promps</th>
+            </tr>
+            {% for tag, promp in promps %}
+                <tr>
+                    <td>
+                        <span>{{ tag }}</span>
+                    </td>
+                    <td>
+                        <span>{{ promp }}</span>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
