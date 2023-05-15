@@ -61,10 +61,13 @@ def process_file(name):
 @main_bp.route('/consult/<string:name>', methods=['GET', 'POST'])
 def consult_file(name):
     global db, query_answer_tuple_list
-    joinPath = build_file_path(name)
-    db = consult_query_LLM(joinPath)
+    db = build_the_database(name)
     query_answer_tuple_list = []
     return redirect(url_for('main.make_query_form'))
+
+def build_the_database(name):
+    joinPath = build_file_path(name)
+    return consult_query_LLM(joinPath)
 
 @main_bp.route('/delete/<string:name>', methods=['GET', 'POST'])
 def delete_file(name):
@@ -97,6 +100,19 @@ def query():
 def redirect_to_new_page():
     return redirect(url_for("main.make_query_form"))
 
+@main_bp.route("/multiple-docs-query", methods=['POST'])
+def handle_data():
+    global db
+    my_json = request.get_json()
+    files = my_json['files']
+    # do something with the data...
+    for file in files:
+        temp_db = build_the_database(file)
+        if not db:
+            db =  temp_db
+        else:
+            db.merge_from(temp_db)
+    return "Done!"
 
 #Promps process
 @main_bp.route('/newpromps/<string:promps>', methods=['POST'])

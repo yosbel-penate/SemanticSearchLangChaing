@@ -4,6 +4,7 @@
         <span class="table-add glyphicon glyphicon-plus"></span>
         <table class="table">
             <tr>
+                <th>Select</th>
                 <th>Name</th>
                 <th>Process</th>
                 <th>Consult</th>
@@ -12,15 +13,24 @@
             {% for file in files %}
                 <tr>
                     <td>
+                        <label>
+                            <input type="checkbox" class="checkbox" value="{{file}}">
+                        </label>
+                    </td>
+                    <td>
                         <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}" target="_blank" class="link_bracket">
                             <span>{{ file }}</span>
                         </a>
                     </td>
                     <td>
-                        <a href="{{ url_for('main.process_file', name = file)}}" class="link_bracket"> <span>>> Process</span></a>
+                        <a href="{{ url_for('main.process_file', name = file)}}" class="link_bracket">
+                            <span>>> Process</span>
+                        </a>
                     </td>
                     <td>
-                        <a href="{{ url_for('main.consult_file', name = file)}}" class="link_bracket"><span>>> Consult</span></a>
+                        <a href="{{ url_for('main.consult_file', name = file)}}" class="link_bracket">
+                            <span>>> Consult</span>
+                        </a>
                     </td>
                     <td align="center">
                         <a href="{{ url_for('main.delete_file', name = file)}}" onclick="location.href=this.getAttribute('href');return false;">
@@ -30,5 +40,6 @@
                 </tr>
             {% endfor %}
         </table>
+        <button onclick="handleSubmit()">Submit</button>
     </div>
 {% endblock %}
