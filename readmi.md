@@ -16,4 +16,7 @@ Instale Python 3.10.11
 y el entorno virtual y los paquetes necesarios.
 Colocar tu OpenIA apiKey en el archivo config.ini
 
+Ejecute en Window:
+> runserver.bat
+
 y Happy hack!!!

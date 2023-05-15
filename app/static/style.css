@@ -230,6 +230,7 @@ body {
     width: auto;
     will-change: transform,opacity;
     z-index: 0;
+    margin-left: 10px;
 }
 
 .button-17:hover {
@@ -354,4 +355,35 @@ box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3p
 .delete-icon {
     background-color: rgb(232, 116, 116);
     border-radius: 50%;
+}
+
+/*new_promps.html*/
+#promps_textarea[textarea] {
+    padding: 10px;
+    font-size: 16px;
+    color: #333;
+    resize: vertical;
+    border: 2px solid transparent;
+}
+.vertical-container {
+    display: flex;
+    flex-direction: column;
+}
+
+/*Tables format*/
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+th, td {
+    text-align: left;
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+tr:hover {
+    background-color: #f5f5f5;
+}
+th {
+    background-color: #4CAF50;
+    color: white;
 }
