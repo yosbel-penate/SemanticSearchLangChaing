@@ -1,3 +1,5 @@
+Welcome to our artificial intelligence application for PDF document retrieval! This innovative tool has been developed by Yosbel Peñate, a technology and programming expert, with the aim of facilitating the search and understanding of information in PDF documents. With this application, you can ask questions about any PDF document you wish to consult. The artificial intelligence will analyze the content of the document and provide you with the most accurate and relevant answers. Additionally, you can save your favorite documents for easy access at any time. It is important to emphasize that all documents consulted through our application are protected by copyright. Therefore, it is essential to respect intellectual property and use them solely for educational or informational purposes.
+
 ¡Bienvenidos a nuestra aplicación de inteligencia artificial para la
 consulta de documentos PDF! Esta innovadora herramienta ha sido desarrollada
 por Yosbel Peñate, un experto en tecnología y programación, con el objetivo
